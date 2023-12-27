@@ -1,74 +1,77 @@
-const CheckerError = require("./CheckerError");
-const ErrorMessages = require("./ErrorMessages");
+import CheckerError from './CheckerError'
+import { NotFound, InvalidType, NotInList } from './ErrorMessages'
 
 const isValidName = (className) => {
-  const classNameRegex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
-  return classNameRegex.test(className);
-};
+  const classNameRegex = /^[a-zA-Z][a-zA-Z0-9_]*$/
+  return classNameRegex.test(className)
+}
 
 const isTypeOf = (obj, cls) => {
-  if (cls === "any") return true;
-  if (cls === "array") return Array.isArray(obj);
-  return typeof obj === cls;
-};
+  if (cls === 'any') return true
+  if (cls === 'array') return Array.isArray(obj)
+  return Object.prototype.toString.call(obj) === cls
+}
 
-const InitialChecks = (name, name_for_required, val, type, required) => {
+const InitialChecks = (name, nameForRequired, val, type, required) => {
   if (val === null || val === undefined) {
-    if (!required) return;
-    throw new CheckerError(ErrorMessages.NotFound(name_for_required));
+    if (!required) return
+    throw new CheckerError(NotFound(nameForRequired))
   }
 
-  if (!isTypeOf(val, type))
-    throw new CheckerError(ErrorMessages.InvalidType(name, type));
-};
+  if (!isTypeOf(val, type)) {
+    throw new CheckerError(InvalidType(name, type))
+  }
+}
 
 const MainValidator = (prefname, name, json, List) => {
-  for (let prop in List) {
+  for (const prop in List) {
     if (
       !List[prop].required &&
       (json[prop] === null || json[prop] === undefined)
-    )
-      continue;
+    ) {
+      continue
+    }
 
     InitialChecks(
-      `${prefname}${name ? `[${name}]` : ""}.${prop}=${json[prop]}`,
+      `${prefname}${name ? `[${name}]` : ''}.${prop}=${json[prop]}`,
       `${prefname}.${prop}`,
       json[prop],
       List[prop].type,
       List[prop].required
-    );
+    )
 
     if (List[prop].choices) {
-      if (!List[prop].choices.includes(json[prop]))
+      if (!List[prop].choices.includes(json[prop])) {
         throw new CheckerError(
-          ErrorMessages.NotInList(
-            `${prefname}${name ? `[${name}]` : ""}.${prop}=${json[prop]}`,
+          NotInList(
+            `${prefname}${name ? `[${name}]` : ''}.${prop}=${json[prop]}`,
             List[prop].choices
           )
-        );
+        )
+      }
     }
   }
-};
+}
 
 const findDuplicates = (arr) => {
-  let uniqueValues = new Set();
-  let duplicates = [];
+  const uniqueValues = new Set()
+  const duplicates = []
 
-  for (let value of arr) {
+  for (const value of arr) {
     if (uniqueValues.has(value)) {
-      duplicates.push(value);
+      duplicates.push(value)
     } else {
-      uniqueValues.add(value);
+      uniqueValues.add(value)
     }
   }
 
-  return duplicates;
-};
+  return duplicates
+}
 
-module.exports = {
+export default {
   isValidName,
   isTypeOf,
   InitialChecks,
   findDuplicates,
-  MainValidator,
-};
+  MainValidator
+}

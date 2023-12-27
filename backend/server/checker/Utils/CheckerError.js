@@ -1,9 +1,9 @@
-const ErrorMessages = require("./ErrorMessages");
+import { CheckerErrorName } from './ErrorMessages'
 
 class CheckerError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = ErrorMessages.CheckerErrorName;
+  constructor (message) {
+    super(message)
+    this.name = CheckerErrorName
   }
 }
-module.exports = CheckerError;
+export default CheckerError

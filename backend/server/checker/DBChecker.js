@@ -1,102 +1,108 @@
-const { MainValidator, findDuplicates } = require("./Utils/Utils");
-const ModelChecker = require("./ModelChecker");
-const CheckerError = require("./Utils/CheckerError");
-const ErrorMessages = require("./Utils/ErrorMessages");
+import { MainValidator, findDuplicates } from './Utils/Utils'
+import { check as _check } from './ModelChecker'
+import CheckerError from './Utils/CheckerError'
+import {
+  InvalidModel,
+  DuplicatedModels,
+  NotFound,
+  ModelNameNotFound,
+  DuplicatedUserModel
+} from './Utils/ErrorMessages'
 
 const DBChecks = Object.freeze({
   models: {
-    type: "array",
-    required: true,
-  },
-});
+    type: 'array',
+    required: true
+  }
+})
 
 const OnDeleteValues = Object.freeze([
-  "CASCADE",
-  "PROTECT",
-  "SET_NULL",
-  "SET_DEFAULT",
-  "DO_NOTHING",
-]);
+  'CASCADE',
+  'PROTECT',
+  'SET_NULL',
+  'SET_DEFAULT',
+  'DO_NOTHING'
+])
 
-const getRelationChecks = (require_on_delete) => {
-  let res = {
-    to: { type: "string", required: true },
-  };
-  if (require_on_delete) {
-    res.on_delete = {
-      type: "string",
-      required: require_on_delete,
-      choices: OnDeleteValues,
-    };
+const getRelationChecks = (requireOnDelete) => {
+  const res = {
+    to: { type: 'string', required: true }
   }
-  return res;
-};
+  if (requireOnDelete) {
+    res.on_delete = {
+      type: 'string',
+      required: requireOnDelete,
+      choices: OnDeleteValues
+    }
+  }
+  return res
+}
 
 class DBChecker {
-  static check(json) {
-    MainValidator("database", "root", json, DBChecks);
+  static check (json) {
+    MainValidator('database', 'root', json, DBChecks)
 
-    for (let model of json.models) {
-      if (Object.keys(model).length !== 1)
-        throw new CheckerError(ErrorMessages.InvalidModel);
-      ModelChecker.check(Object.keys(model)[0], model[Object.keys(model)[0]]);
+    for (const model of json.models) {
+      if (Object.keys(model).length !== 1) {
+        throw new CheckerError(InvalidModel)
+      }
+      _check(Object.keys(model)[0], model[Object.keys(model)[0]])
     }
 
-    let model_names = [];
-    for (let model of json.models) model_names.push(Object.keys(model)[0]);
-    const duplicates = findDuplicates(model_names);
-    if (duplicates.length !== 0)
-      throw new CheckerError(ErrorMessages.DuplicatedModels(duplicates[0]));
+    const modelNames = []
+    for (const model of json.models) modelNames.push(Object.keys(model)[0])
+    const duplicates = findDuplicates(modelNames)
+    if (duplicates.length !== 0) {
+      throw new CheckerError(DuplicatedModels(duplicates[0]))
+    }
 
-    //relationships checks
+    // relationships checks
 
-    const checkRelation = (model, column, relation_name, require_on_delete) => {
-      if (column.type === relation_name) {
-        if (!column[relation_name])
+    const checkRelation = (model, column, relationName, requireOnDelete) => {
+      if (column.type === relationName) {
+        if (!column[relationName]) {
           throw new CheckerError(
-            ErrorMessages.NotFound(
-              `${Object.keys(model)[0]}.${column.name}.${relation_name}`
+            NotFound(
+              `${Object.keys(model)[0]}.${column.name}.${relationName}`
             )
-          );
+          )
+        }
 
         MainValidator(
-          `${Object.keys(model)[0]}.${column.name}.${relation_name}`,
-          "",
-          column[relation_name],
-          getRelationChecks(require_on_delete)
-        );
-        if (!model_names.includes(column[relation_name].to))
+          `${Object.keys(model)[0]}.${column.name}.${relationName}`,
+          '',
+          column[relationName],
+          getRelationChecks(requireOnDelete)
+        )
+        if (!modelNames.includes(column[relationName].to)) {
           throw new CheckerError(
-            ErrorMessages.ModelNameNotFound(
-              column[relation_name].to,
+            ModelNameNotFound(
+              column[relationName].to,
               `${Object.keys(model)[0]}.${column.name}`
             )
-          );
+          )
+        }
       }
-    };
+    }
 
+    let hasUser = false
 
-    let hasUser = false; 
-
-    for (let model of json.models) {
-      for (let column of model[Object.keys(model)[0]].columns) {
-        checkRelation(model, column, "foreign_key", true);
-        checkRelation(model, column, "one_to_one", true);
-        checkRelation(model, column, "many_to_many", false);
-      }
-
-      if (model[Object.keys(model)[0]].isuser){
-          if(hasUser){
-            throw new CheckerError(ErrorMessages.DuplicatedUserModel);
-          }
-
-          hasUser = true;
+    for (const model of json.models) {
+      for (const column of model[Object.keys(model)[0]].columns) {
+        checkRelation(model, column, 'foreign_key', true)
+        checkRelation(model, column, 'one_to_one', true)
+        checkRelation(model, column, 'many_to_many', false)
       }
 
+      if (model[Object.keys(model)[0]].isuser) {
+        if (hasUser) {
+          throw new CheckerError(DuplicatedUserModel)
+        }
 
-
+        hasUser = true
+      }
     }
   }
 }
 
-module.exports = DBChecker;
+export default DBChecker
