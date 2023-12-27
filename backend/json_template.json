@@ -1,0 +1,59 @@
+{
+  "!models": [
+    {
+      "user": {
+        "!columns": [
+          {
+            "!name": "username",
+            "!type": "string,int,decimal,file,bool,...",
+            "foreign_key": {
+              "to": "cart",
+              "on_delete": "..."
+            },
+            "one_to_one": {
+              "to": "cart",
+              "on_delete": "..."
+            },
+            "many_to_many": {
+              "to": "cart"
+            },
+            "properties": {
+              "null": true,
+              "blank": true,
+              "unique": true,
+              "default": "---",
+              "max_length": 222,
+              "editable": true,
+              "db_column": "my_colmun",
+              "choices": ["a", "b", "c"],
+              "max_digits": 22,
+              "decimal_places": 11,
+              "help_text": "sss",
+              "auto_now_add": true,
+              "auto_now": true,
+              "autoincrement": true,
+              "serialize": true,
+              "related_name": "asdas",
+              "primary_key": true
+            }
+          }
+        ],
+        "timestambed": true,
+        "isuser": true,
+        "soft_delete": true,
+        "meta": {
+          "db_table": "my_user_table",
+          "ordering": "-created",
+          "verbose_name": "asdasd",
+          "verbose_name_plural": "asdasd",
+          "abstract": false
+        }
+      }
+    },
+    {
+      "cart": {
+        "columns": [{ "name": "username", "type": "string" }]
+      }
+    }
+  ]
+}
