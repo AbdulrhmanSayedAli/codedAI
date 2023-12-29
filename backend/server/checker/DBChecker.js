@@ -1,13 +1,13 @@
-import { MainValidator, findDuplicates } from './Utils/Utils';
-import { check as _check } from './ModelChecker';
-import CheckerError from './Utils/CheckerError';
+import { MainValidator, findDuplicates } from './Utils/Utils.js';
+import { check as _check } from './ModelChecker.js';
+import CheckerError from './Utils/CheckerError.js';
 import {
   InvalidModel,
   DuplicatedModels,
   NotFound,
   ModelNameNotFound,
   DuplicatedUserModel
-} from './Utils/ErrorMessages';
+} from './Utils/ErrorMessages.js';
 
 const DBChecks = Object.freeze({
   models: {

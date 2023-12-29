@@ -1,6 +1,6 @@
-import Result from './Result';
-import { ParseValueToString } from './Utils/Utils';
-import { build as _build } from './ColumnBuilder';
+import Result from './Result.js';
+import { ParseValueToString } from './Utils/Utils.js';
+import { build as _build } from './ColumnBuilder.js';
 
 class ModelBuilder {
   static getHeader (name, json) {

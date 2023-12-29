@@ -1,6 +1,6 @@
-import { check } from '../checker/DBChecker';
-import { build as _build } from './ModelBuilder';
-import Result from './Result';
+import { check } from '../checker/DBChecker.js';
+import { build as _build } from './ModelBuilder.js';
+import Result from './Result.js';
 class DBBuilder {
   // return Result[]
   static build (json) {

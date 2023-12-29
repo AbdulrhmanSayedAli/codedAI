@@ -1,5 +1,5 @@
-import CheckerError from './CheckerError';
-import { NotFound, InvalidType, NotInList } from './ErrorMessages';
+import CheckerError from './CheckerError.js';
+import { NotFound, InvalidType, NotInList } from './ErrorMessages.js';
 
 const isValidName = (className) => {
   const classNameRegex = /^[a-zA-Z][a-zA-Z0-9_]*$/;

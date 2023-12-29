@@ -1,4 +1,4 @@
-import { CheckerErrorName } from './ErrorMessages';
+import { CheckerErrorName } from './ErrorMessages.js';
 
 class CheckerError extends Error {
   constructor (message) {

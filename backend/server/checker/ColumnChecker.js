@@ -1,11 +1,11 @@
-import { MainValidator, isValidName, isTypeOf } from './Utils/Utils';
+import { MainValidator, isValidName, isTypeOf } from './Utils/Utils.js';
 import {
   InvalidName,
   NotInList,
   InvalidType,
   DefaultValueNotInChoices
-} from './Utils/ErrorMessages';
-import CheckerError from './Utils/CheckerError';
+} from './Utils/ErrorMessages.js';
+import CheckerError from './Utils/CheckerError.js';
 
 const ColumnValidTypes = Object.freeze([
   'char',

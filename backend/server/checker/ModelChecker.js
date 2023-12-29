@@ -3,16 +3,16 @@ import {
   MainValidator,
   isTypeOf,
   findDuplicates
-} from './Utils/Utils';
+} from './Utils/Utils.js';
 import {
   InvalidName,
   EmptyColumns,
   DuplicatedColumns,
   NotInList,
   InvalidType
-} from './Utils/ErrorMessages';
-import { check as _check } from './ColumnChecker';
-import CheckerError from './Utils/CheckerError';
+} from './Utils/ErrorMessages.js';
+import { check as _check } from './ColumnChecker.js';
+import CheckerError from './Utils/CheckerError.js';
 
 const ModelChecks = Object.freeze({
   columns: {
