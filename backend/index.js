@@ -8,6 +8,7 @@ import sequelize from './server/models/index.js';
 import usersRouter from './server/routes/users/router.js';
 import projectsRouter from './server/routes/projects/router.js';
 import workspacesRouter from './server/routes/workspaces/router.js';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 AdminJS.registerAdapter({
   Resource: AdminJSSequelize.Resource,
@@ -19,6 +20,13 @@ const PORT = 3000;
 const start = async () => {
   const app = express();
   app.use(bodyParser.json());
+  const corsOpts = {
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS']
+  };
+
+  app.use(cors(corsOpts));
   await sequelize.sync();
 
   const admin = new AdminJS({
