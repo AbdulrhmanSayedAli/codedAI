@@ -15,8 +15,16 @@ class ModelBuilder {
   }
 
   static getHeader (name, json) {
-    if (json.timestambed) return `class ${name}(TimeStampedModel):`;
-    return `class ${name}(models.Model):`;
+    const headers = [];
+    if (json.timestambed) headers.push('TimeStampedModel');
+    if (json.isuser) headers.push('AbstractUser');
+
+    if (headers.length === 0) { return `class ${name}(models.Model):`; } else {
+      let headersStr = '';
+      for (let i = 0; i < headers.length - 1; i++)headersStr += headers[i] + ' , ';
+      headersStr += headers[headers.length - 1];
+      return `class ${name}(${headersStr}):`;
+    }
   }
 
   static getColumns (json) {
