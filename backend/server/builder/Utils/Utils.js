@@ -1,4 +1,4 @@
-const ParseValueToString = (value) => {
+export const ParseValueToString = (value) => {
   let result = '';
   if (Array.isArray(value)) {
     result += '[';
@@ -15,11 +15,11 @@ const ParseValueToString = (value) => {
   return result;
 };
 
-const CapitalizeString = (str) => {
+export const CapitalizeString = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const getColumnType = (type) => {
+export const getColumnType = (type) => {
   if (type === 'url') return 'URLField';
   if (type === 'datetime') return 'DateTimeField';
   if (type === 'positiveinteger') return 'PositiveIntegerField';
@@ -30,5 +30,3 @@ const getColumnType = (type) => {
   if (type === 'uuid') return 'UUIDField';
   return CapitalizeString(type) + 'Field';
 };
-
-export default { ParseValueToString, CapitalizeString, getColumnType };

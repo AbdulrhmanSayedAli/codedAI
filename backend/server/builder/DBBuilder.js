@@ -1,15 +1,15 @@
-import { check } from '../checker/DBChecker.js';
-import { build as _build } from './ModelBuilder.js';
+import DBChecker from '../checker/DBChecker.js';
+import ModelBuilder from './ModelBuilder.js';
 import Result from './Result.js';
 class DBBuilder {
   // return Result[]
   static build (json) {
-    check(json);
+    DBChecker.check(json);
     let result = [];
     let addPackage = false;
     for (const model of json.models) {
       result.push(
-        ..._build(Object.keys(model)[0], model[Object.keys(model)[0]])
+        ...ModelBuilder.build(Object.keys(model)[0], model[Object.keys(model)[0]])
       );
       if (model[Object.keys(model)[0]].timestambed) {
         addPackage = true;

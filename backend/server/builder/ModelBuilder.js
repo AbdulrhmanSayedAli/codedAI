@@ -1,6 +1,6 @@
 import Result from './Result.js';
 import { ParseValueToString } from './Utils/Utils.js';
-import { build as _build } from './ColumnBuilder.js';
+import ColumnBuilder from './ColumnBuilder.js';
 
 class ModelBuilder {
   static getHeader (name, json) {
@@ -10,7 +10,7 @@ class ModelBuilder {
   static getColumns (json) {
     let result = '';
     for (const col of json.columns) {
-      result += '   ' + _build(col.name, col) + '\n';
+      result += '   ' + ColumnBuilder.build(col.name, col) + '\n';
     }
     return result;
   }
