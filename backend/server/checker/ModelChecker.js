@@ -3,16 +3,10 @@ import {
   MainValidator,
   isTypeOf,
   findDuplicates
-} from './Utils/Utils';
-import {
-  InvalidName,
-  EmptyColumns,
-  DuplicatedColumns,
-  NotInList,
-  InvalidType
-} from './Utils/ErrorMessages';
-import { check as _check } from './ColumnChecker';
-import CheckerError from './Utils/CheckerError';
+} from './Utils/Utils.js';
+import ErrorMessages from './Utils/ErrorMessages.js';
+import ColumnChecker from './ColumnChecker.js';
+import CheckerError from './Utils/CheckerError.js';
 
 const ModelChecks = Object.freeze({
   columns: {
@@ -51,32 +45,32 @@ class ModelChecker {
     MainValidator('model', name, json, ModelChecks);
 
     if (!isValidName(name)) {
-      throw new CheckerError(InvalidName('model', name));
+      throw new CheckerError(ErrorMessages.InvalidName('model', name));
     }
 
     if (json.columns.length === 0) {
-      throw new CheckerError(EmptyColumns);
+      throw new CheckerError(ErrorMessages.EmptyColumns);
     }
-    for (const col of json.columns) _check(col.name, col);
+    for (const col of json.columns) ColumnChecker.check(col.name, col);
 
     const columnNames = [];
     for (const col of json.columns) columnNames.push(col.name);
     const duplicates = findDuplicates(columnNames);
     if (duplicates.length !== 0) {
-      throw new CheckerError(DuplicatedColumns(name, duplicates[0]));
+      throw new CheckerError(ErrorMessages.DuplicatedColumns(name, duplicates[0]));
     }
 
     // checking model metas
     for (const prop in json.meta) {
       if (!ModelValidMetas.includes(prop)) {
         throw new CheckerError(
-          NotInList(`model[${name}].meta.${prop}`, ModelValidMetas)
+          ErrorMessages.NotInList(`model[${name}].meta.${prop}`, ModelValidMetas)
         );
       }
 
       if (!isTypeOf(json.meta[prop], TypeOfMeta[prop])) {
         throw new CheckerError(
-          InvalidType(`model[${name}].meta.${prop}`, TypeOfMeta[prop])
+          ErrorMessages.InvalidType(`model[${name}].meta.${prop}`, TypeOfMeta[prop])
         );
       }
     }

@@ -1,4 +1,4 @@
-import { getColumnType, ParseValueToString } from './Utils/Utils';
+import { getColumnType, ParseValueToString } from './Utils/Utils.js';
 
 class ColumnBuilder {
   static build (name, json) {

@@ -1,13 +1,7 @@
-import { MainValidator, findDuplicates } from './Utils/Utils';
-import { check as _check } from './ModelChecker';
-import CheckerError from './Utils/CheckerError';
-import {
-  InvalidModel,
-  DuplicatedModels,
-  NotFound,
-  ModelNameNotFound,
-  DuplicatedUserModel
-} from './Utils/ErrorMessages';
+import { MainValidator, findDuplicates } from './Utils/Utils.js';
+import ModelChecker from './ModelChecker.js';
+import CheckerError from './Utils/CheckerError.js';
+import ErrorMessages from './Utils/ErrorMessages.js';
 
 const DBChecks = Object.freeze({
   models: {
@@ -44,16 +38,16 @@ class DBChecker {
 
     for (const model of json.models) {
       if (Object.keys(model).length !== 1) {
-        throw new CheckerError(InvalidModel);
+        throw new CheckerError(ErrorMessages.InvalidModel);
       }
-      _check(Object.keys(model)[0], model[Object.keys(model)[0]]);
+      ModelChecker.check(Object.keys(model)[0], model[Object.keys(model)[0]]);
     }
 
     const modelNames = [];
     for (const model of json.models) modelNames.push(Object.keys(model)[0]);
     const duplicates = findDuplicates(modelNames);
     if (duplicates.length !== 0) {
-      throw new CheckerError(DuplicatedModels(duplicates[0]));
+      throw new CheckerError(ErrorMessages.DuplicatedModels(duplicates[0]));
     }
 
     // relationships checks
@@ -62,7 +56,7 @@ class DBChecker {
       if (column.type === relationName) {
         if (!column[relationName]) {
           throw new CheckerError(
-            NotFound(
+            ErrorMessages.NotFound(
               `${Object.keys(model)[0]}.${column.name}.${relationName}`
             )
           );
@@ -76,7 +70,7 @@ class DBChecker {
         );
         if (!modelNames.includes(column[relationName].to)) {
           throw new CheckerError(
-            ModelNameNotFound(
+            ErrorMessages.ModelNameNotFound(
               column[relationName].to,
               `${Object.keys(model)[0]}.${column.name}`
             )
@@ -96,7 +90,7 @@ class DBChecker {
 
       if (model[Object.keys(model)[0]].isuser) {
         if (hasUser) {
-          throw new CheckerError(DuplicatedUserModel);
+          throw new CheckerError(ErrorMessages.DuplicatedUserModel);
         }
 
         hasUser = true;

@@ -1,11 +1,6 @@
-import { MainValidator, isValidName, isTypeOf } from './Utils/Utils';
-import {
-  InvalidName,
-  NotInList,
-  InvalidType,
-  DefaultValueNotInChoices
-} from './Utils/ErrorMessages';
-import CheckerError from './Utils/CheckerError';
+import { MainValidator, isValidName, isTypeOf } from './Utils/Utils.js';
+import ErrorMessages from './Utils/ErrorMessages.js';
+import CheckerError from './Utils/CheckerError.js';
 
 const ColumnValidTypes = Object.freeze([
   'char',
@@ -85,20 +80,20 @@ class ColumnChecker {
     MainValidator('column', name, json, ColumnChecks);
 
     if (!isValidName(name)) {
-      throw new CheckerError(InvalidName('column', name));
+      throw new CheckerError(ErrorMessages.InvalidName('column', name));
     }
 
     // checking column properties
     for (const prop in json.properties) {
       if (!ColumnValidProprties.includes(prop)) {
         throw new CheckerError(
-          NotInList(`column[${name}].properties.${prop}`, ColumnValidProprties)
+          ErrorMessages.NotInList(`column[${name}].properties.${prop}`, ColumnValidProprties)
         );
       }
 
       if (!isTypeOf(json.properties[prop], TypeOfProprtie[prop])) {
         throw new CheckerError(
-          InvalidType(
+          ErrorMessages.InvalidType(
             `column[${name}].properties.${prop}`,
             TypeOfProprtie[prop]
           )
@@ -111,7 +106,7 @@ class ColumnChecker {
     if (json.properties && json.properties.default && json.properties.choices) {
       if (!json.properties.choices.includes(json.properties.default)) {
         throw new CheckerError(
-          DefaultValueNotInChoices(
+          ErrorMessages.DefaultValueNotInChoices(
             `${name}=${json.properties.default}`,
             json.properties.choices
           )
