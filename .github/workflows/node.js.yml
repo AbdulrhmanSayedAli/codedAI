@@ -37,5 +37,5 @@ jobs:
         working-directory: backend
 
       - name: Lint
-        run: npm run lint --if-present
+        run: npx eslint .
         working-directory: backend
