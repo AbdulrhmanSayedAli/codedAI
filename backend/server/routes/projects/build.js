@@ -74,11 +74,14 @@ router.get('/build', (req, res) => {
         }
       ]
     };
+
+    let code = '';
     for (const d of DBBuilder.build(data)) {
-      console.log(d.code);
+      code += d.code;
+      code += '\n';
     }
 
-    sendResponse(res, { result: DBBuilder.build(data) }, StatusCodes.OK);
+    sendResponse(res, { result: code }, StatusCodes.OK);
   } catch (error) {
     sendResponse(res, { message: error.message }, StatusCodes.BAD_REQUEST);
   }
