@@ -3,7 +3,19 @@ import { ParseValueToString } from './Utils/Utils.js';
 import ColumnBuilder from './ColumnBuilder.js';
 
 class ModelBuilder {
+  static getImports (json) {
+    let res = 'from django.db import models\n';
+    if (json.timestambed) {
+      res += '\nfrom model_utils.models import TimeStampedModel';
+    }
+    if (json.isuser) {
+      res += '\nfrom django.contrib.auth.models import AbstractUser';
+    }
+    return res;
+  }
+
   static getHeader (name, json) {
+    if (json.timestambed) return `class ${name}(TimeStampedModel):`;
     return `class ${name}(models.Model):`;
   }
 
@@ -34,13 +46,7 @@ class ModelBuilder {
     const message =
       'Insert the following code snippet into your models.py file:';
 
-    let imports = 'from django.db import models';
-    if (json.timestambed) {
-      imports += '\nfrom model_utils.models import TimeStampedModel';
-    }
-    if (json.isuser) {
-      imports += '\nfrom django.contrib.auth.models import AbstractUser';
-    }
+    const imports = this.getImports(json);
 
     return [new Result(title, message, imports + '\n\n' + code)];
   }
