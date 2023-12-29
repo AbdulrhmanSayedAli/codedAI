@@ -1,9 +1,9 @@
-import { CheckerErrorName } from './ErrorMessages'
+import { CheckerErrorName } from './ErrorMessages';
 
 class CheckerError extends Error {
   constructor (message) {
-    super(message)
-    this.name = CheckerErrorName
+    super(message);
+    this.name = CheckerErrorName;
   }
 }
-export default CheckerError
+export default CheckerError;

@@ -1,5 +1,5 @@
-import { DataTypes, Model } from 'sequelize'
-import sequelize from './index.js'
+import { DataTypes, Model } from 'sequelize';
+import sequelize from './index.js';
 
 class News extends Model {
   static associate (models) {}
@@ -20,6 +20,6 @@ News.init(
     sequelize,
     modelName: 'News'
   }
-)
+);
 
-export default News
+export default News;

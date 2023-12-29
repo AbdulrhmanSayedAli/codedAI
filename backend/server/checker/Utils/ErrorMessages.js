@@ -8,34 +8,34 @@ const ErrorMessages = {
   InvalidName: (name, currentVal) =>
     `Invalid ${name} name '${currentVal}'. Please use a valid ${name} name.`,
   NotInList: (name, list) => {
-    let types = ''
+    let types = '';
     for (const i of list) {
-      types += `"${i}", `
+      types += `"${i}", `;
     }
-    return `'${name}' doesn't match with these keys (${types}).`
+    return `'${name}' doesn't match with these keys (${types}).`;
   },
   DuplicatedColumns: (model, name) => {
-    return `Duplicate column name '${name}' in model '${model}'`
+    return `Duplicate column name '${name}' in model '${model}'`;
   },
   DuplicatedModels: (name) => {
-    return `Duplicate model name '${name}' in database`
+    return `Duplicate model name '${name}' in database`;
   },
 
   InvalidModel: 'Invalid model structure.',
   ModelNameNotFound: (name, path) => {
-    return `Model '${name}' not found for foreign key in [${path}].`
+    return `Model '${name}' not found for foreign key in [${path}].`;
   },
 
   DuplicatedUserModel: "Specify 'isuser=true' for a single model only.",
 
   DefaultValueNotInChoices: (name, list) => {
-    let choices = ''
+    let choices = '';
     for (const i of list) {
-      choices += `"${i}", `
+      choices += `"${i}", `;
     }
 
-    return `The default value for '${name}' does not align with the valid choices for this column [${choices}].`
+    return `The default value for '${name}' does not align with the valid choices for this column [${choices}].`;
   }
-}
+};
 
-export default ErrorMessages
+export default ErrorMessages;

@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import sendResponse from '../Utils/Response.js'
+import { Router } from 'express';
+import sendResponse from '../Utils/Response.js';
 import {
   StatusCodes
-} from 'http-status-codes'
+} from 'http-status-codes';
 
-const router = Router()
+const router = Router();
 
 router.get('/build', (req, res) => {
-  sendResponse(res, { message: 'hi' }, StatusCodes.OK)
-})
+  sendResponse(res, { message: 'hi' }, StatusCodes.OK);
+});
 
-export default router
+export default router;

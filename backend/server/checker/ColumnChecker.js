@@ -1,11 +1,11 @@
-import { MainValidator, isValidName, isTypeOf } from './Utils/Utils'
+import { MainValidator, isValidName, isTypeOf } from './Utils/Utils';
 import {
   InvalidName,
   NotInList,
   InvalidType,
   DefaultValueNotInChoices
-} from './Utils/ErrorMessages'
-import CheckerError from './Utils/CheckerError'
+} from './Utils/ErrorMessages';
+import CheckerError from './Utils/CheckerError';
 
 const ColumnValidTypes = Object.freeze([
   'char',
@@ -25,7 +25,7 @@ const ColumnValidTypes = Object.freeze([
   'many_to_many',
   'one_to_one',
   'uuid'
-])
+]);
 
 const ColumnChecks = Object.freeze({
   name: {
@@ -37,7 +37,7 @@ const ColumnChecks = Object.freeze({
     choices: ColumnValidTypes,
     required: true
   }
-})
+});
 
 const ColumnValidProprties = Object.freeze([
   'null',
@@ -57,7 +57,7 @@ const ColumnValidProprties = Object.freeze([
   'serialize',
   'related_name',
   'primary_key'
-])
+]);
 
 const TypeOfProprtie = Object.freeze({
   null: 'boolean',
@@ -77,15 +77,15 @@ const TypeOfProprtie = Object.freeze({
   serialize: 'boolean',
   primary_key: 'boolean',
   related_name: 'string'
-})
+});
 
 class ColumnChecker {
   static check (name, json) {
     // checking for values
-    MainValidator('column', name, json, ColumnChecks)
+    MainValidator('column', name, json, ColumnChecks);
 
     if (!isValidName(name)) {
-      throw new CheckerError(InvalidName('column', name))
+      throw new CheckerError(InvalidName('column', name));
     }
 
     // checking column properties
@@ -93,7 +93,7 @@ class ColumnChecker {
       if (!ColumnValidProprties.includes(prop)) {
         throw new CheckerError(
           NotInList(`column[${name}].properties.${prop}`, ColumnValidProprties)
-        )
+        );
       }
 
       if (!isTypeOf(json.properties[prop], TypeOfProprtie[prop])) {
@@ -102,7 +102,7 @@ class ColumnChecker {
             `column[${name}].properties.${prop}`,
             TypeOfProprtie[prop]
           )
-        )
+        );
       }
     }
 
@@ -115,10 +115,10 @@ class ColumnChecker {
             `${name}=${json.properties.default}`,
             json.properties.choices
           )
-        )
+        );
       }
     }
   }
 }
 
-export default ColumnChecker
+export default ColumnChecker;

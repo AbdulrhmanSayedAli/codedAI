@@ -1,7 +1,7 @@
-import { Router } from 'express'
-import build from './build.js'
-const router = Router()
+import { Router } from 'express';
+import build from './build.js';
+const router = Router();
 
-router.use('/', build)
+router.use('/', build);
 
-export default router
+export default router;
