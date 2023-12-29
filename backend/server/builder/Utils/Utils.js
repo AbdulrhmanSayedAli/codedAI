@@ -1,34 +1,34 @@
 const ParseValueToString = (value) => {
-  let result = ''
+  let result = '';
   if (Array.isArray(value)) {
-    result += '['
+    result += '[';
     for (const v of value) {
-      result += ParseValueToString(v) + ','
+      result += ParseValueToString(v) + ',';
     }
-    result += ']'
+    result += ']';
   } else if (typeof value === 'string') {
-    result = '"' + value + '"'
+    result = '"' + value + '"';
   } else {
-    result += value
+    result += value;
   }
 
-  return result
-}
+  return result;
+};
 
 const CapitalizeString = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1)
-}
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
 const getColumnType = (type) => {
-  if (type === 'url') return 'URLField'
-  if (type === 'datetime') return 'DateTimeField'
-  if (type === 'positiveinteger') return 'PositiveIntegerField'
-  if (type === 'positivesmallinteger') return 'PositiveSmallIntegerField'
-  if (type === 'foreign_key') return 'ForeignKey'
-  if (type === 'many_to_many') return 'ManyToManyField'
-  if (type === 'one_to_one') return 'OneToOneField'
-  if (type === 'uuid') return 'UUIDField'
-  return CapitalizeString(type) + 'Field'
-}
+  if (type === 'url') return 'URLField';
+  if (type === 'datetime') return 'DateTimeField';
+  if (type === 'positiveinteger') return 'PositiveIntegerField';
+  if (type === 'positivesmallinteger') return 'PositiveSmallIntegerField';
+  if (type === 'foreign_key') return 'ForeignKey';
+  if (type === 'many_to_many') return 'ManyToManyField';
+  if (type === 'one_to_one') return 'OneToOneField';
+  if (type === 'uuid') return 'UUIDField';
+  return CapitalizeString(type) + 'Field';
+};
 
-export default { ParseValueToString, CapitalizeString, getColumnType }
+export default { ParseValueToString, CapitalizeString, getColumnType };
