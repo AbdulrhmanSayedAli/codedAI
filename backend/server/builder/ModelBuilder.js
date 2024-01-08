@@ -8,6 +8,11 @@ class ModelBuilder {
     if (json.timestambed) {
       res += '\nfrom model_utils.models import TimeStampedModel';
     }
+
+    if (json.soft_delete) {
+      res += '\nfrom model_utils.models import SoftDeletableModel';
+    }
+
     if (json.isuser) {
       res += '\nfrom django.contrib.auth.models import AbstractUser';
     }
@@ -18,6 +23,7 @@ class ModelBuilder {
     const headers = [];
     if (json.timestambed) headers.push('TimeStampedModel');
     if (json.isuser) headers.push('AbstractUser');
+    if (json.soft_delete) headers.push('SoftDeletableModel');
 
     if (headers.length === 0) { return `class ${name}(models.Model):`; } else {
       let headersStr = '';
