@@ -1,5 +1,5 @@
 import Result from './Result.js';
-import { ParseValueToString } from './Utils/Utils.js';
+import { JoinWithCommas, ParseValueToString } from './Utils/Utils.js';
 import ColumnBuilder from './ColumnBuilder.js';
 
 class ModelBuilder {
@@ -25,12 +25,9 @@ class ModelBuilder {
     if (json.isuser) headers.push('AbstractUser');
     if (json.soft_delete) headers.push('SoftDeletableModel');
 
-    if (headers.length === 0) { return `class ${name}(models.Model):`; } else {
-      let headersStr = '';
-      for (let i = 0; i < headers.length - 1; i++)headersStr += headers[i] + ' , ';
-      headersStr += headers[headers.length - 1];
-      return `class ${name}(${headersStr}):`;
-    }
+    if (headers.length === 0) { headers.push('models.Model'); }
+
+    return `class ${name}(${JoinWithCommas(headers)}):`;
   }
 
   static getColumns (json) {

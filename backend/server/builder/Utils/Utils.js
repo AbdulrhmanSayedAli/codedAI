@@ -1,10 +1,24 @@
+export const removeLastComma = (text) => {
+  if (text.endsWith(', ')) text = text.slice(0, text.length - 2);
+  else if (text.endsWith(',')) text = text.slice(0, text.length - 1);
+  return text;
+};
+
+export const JoinWithCommas = (array) => {
+  if (array.length === 0) return '';
+  let result = '';
+  for (const a of array)result += `${a}, `;
+  return removeLastComma(result);
+};
+
 export const ParseValueToString = (value) => {
   let result = '';
   if (Array.isArray(value)) {
     result += '[';
     for (const v of value) {
-      result += ParseValueToString(v) + ',';
+      result += ParseValueToString(v) + ', ';
     }
+    result = removeLastComma(result);
     result += ']';
   } else if (typeof value === 'string') {
     result = '"' + value + '"';
