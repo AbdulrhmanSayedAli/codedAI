@@ -4,7 +4,7 @@ import ColumnBuilder from './ColumnBuilder.js';
 
 class ModelBuilder {
   static getImports (json) {
-    let res = 'from django.db import models\n';
+    let res = 'from django.db import models';
     if (json.timestambed) {
       res += '\nfrom model_utils.models import TimeStampedModel';
     }
@@ -36,7 +36,7 @@ class ModelBuilder {
   }
 
   static getMeta (json) {
-    let result = '   class Meta:' + '\n';
+    let result = '\n   class Meta:' + '\n';
     for (const prop in json.meta) {
       result +=
         '       ' + prop + ' = ' + ParseValueToString(json.meta[prop]) + '\n';
@@ -48,8 +48,8 @@ class ModelBuilder {
   static build (name, json) {
     let code = '';
     code += this.getHeader(name, json) + '\n';
-    if (json.columns) code += this.getColumns(json) + '\n';
-    if (json.meta) code += this.getMeta(json) + '\n';
+    if (json.columns) code += this.getColumns(json);
+    if (json.meta) code += this.getMeta(json);
     const title = `${name} model`;
     const message =
       'Insert the following code snippet into your models.py file:';
