@@ -1,4 +1,4 @@
-import { getColumnType, JoinWithCommas, ParseValueToString } from './Utils/Utils.js';
+import { getColumnType, joinWithCommas, parseValueToString } from './Utils/Utils.js';
 
 class ColumnBuilder {
   static build (name, json) {
@@ -17,9 +17,9 @@ class ColumnBuilder {
     }
 
     for (const prop in json.properties) {
-      columns.push(`${prop}=${ParseValueToString(json.properties[prop])}`);
+      columns.push(`${prop}=${parseValueToString(json.properties[prop])}`);
     }
-    result += JoinWithCommas(columns);
+    result += joinWithCommas(columns);
     result += ')';
     return result;
   }

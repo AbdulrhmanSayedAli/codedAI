@@ -1,5 +1,5 @@
 import Result from './Result.js';
-import { JoinWithCommas, ParseValueToString } from './Utils/Utils.js';
+import { joinWithCommas, parseValueToString } from './Utils/Utils.js';
 import ColumnBuilder from './ColumnBuilder.js';
 
 class ModelBuilder {
@@ -27,7 +27,7 @@ class ModelBuilder {
 
     if (headers.length === 0) { headers.push('models.Model'); }
 
-    return `class ${name}(${JoinWithCommas(headers)}):`;
+    return `class ${name}(${joinWithCommas(headers)}):`;
   }
 
   static getColumns (json) {
@@ -42,7 +42,7 @@ class ModelBuilder {
     let result = '\n   class Meta:' + '\n';
     for (const prop in json.meta) {
       result +=
-        '       ' + prop + ' = ' + ParseValueToString(json.meta[prop]) + '\n';
+        '       ' + prop + ' = ' + parseValueToString(json.meta[prop]) + '\n';
     }
     return result;
   }

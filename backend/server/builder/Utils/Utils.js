@@ -4,32 +4,27 @@ export const removeLastComma = (text) => {
   return text;
 };
 
-export const JoinWithCommas = (array) => {
+export const joinWithCommas = (array) => {
   if (array.length === 0) return '';
   let result = '';
   for (const a of array)result += `${a}, `;
   return removeLastComma(result);
 };
 
-export const ParseValueToString = (value) => {
-  let result = '';
+export const parseValueToString = (value) => {
   if (Array.isArray(value)) {
-    result += '[';
-    for (const v of value) {
-      result += ParseValueToString(v) + ', ';
-    }
-    result = removeLastComma(result);
-    result += ']';
+    const arrayString = value.map((v) => parseValueToString(v)).join(', ');
+    return `[${arrayString}]`;
   } else if (typeof value === 'string') {
-    result = '"' + value + '"';
+    return `"${value}"`;
+  } else if (typeof value === 'boolean') {
+    return value ? 'True' : 'False';
   } else {
-    result += value;
+    return String(value);
   }
-
-  return result;
 };
 
-export const CapitalizeString = (str) => {
+export const capitalizeString = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
@@ -42,5 +37,5 @@ export const getColumnType = (type) => {
   if (type === 'many_to_many') return 'ManyToManyField';
   if (type === 'one_to_one') return 'OneToOneField';
   if (type === 'uuid') return 'UUIDField';
-  return CapitalizeString(type) + 'Field';
+  return capitalizeString(type) + 'Field';
 };
