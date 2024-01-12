@@ -3,6 +3,14 @@ import AdminJS from 'adminjs';
 import AdminJSExpress from '@adminjs/express';
 import express from 'express';
 import News from './server/models/news.js';
+import User from './server/models/user.js';
+import Project from './server/models/project.js';
+import Result from './server/models/result.js';
+import Plan from './server/models/plan.js';
+import InviteToCompany from './server/models/inviteToCompany.js';
+import InviteToWorkSpace from './server/models/inviteToWorkSpace.js';
+import WorkSpace from './server/models/workSpace.js';
+import WorkSpaceCopy from './server/models/workSpaceCopy.js';
 import * as AdminJSSequelize from '@adminjs/sequelize';
 import sequelize from './server/models/index.js';
 import usersRouter from './server/routes/users/router.js';
@@ -22,7 +30,7 @@ const start = async () => {
   await sequelize.sync();
 
   const admin = new AdminJS({
-    resources: [News]
+    resources: [News, User, InviteToWorkSpace, WorkSpace, Project, Result, Plan, InviteToCompany, WorkSpaceCopy]
   });
 
   const adminRouter = AdminJSExpress.buildRouter(admin);
