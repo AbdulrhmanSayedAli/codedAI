@@ -1,16 +1,10 @@
-import { check } from '../checker/DBChecker';
-import { build as _build } from './ModelBuilder';
-import Result from './Result';
+import DBChecker from '../checker/DBChecker.js';
+import ModelBuilder from './ModelBuilder.js';
+import Result from './Result.js';
 class DBBuilder {
-  // return Result[]
-  static build (json) {
-    check(json);
-    let result = [];
+  static addPackageResult (json, result) {
     let addPackage = false;
     for (const model of json.models) {
-      result.push(
-        ..._build(Object.keys(model)[0], model[Object.keys(model)[0]])
-      );
       if (model[Object.keys(model)[0]].timestambed) {
         addPackage = true;
       }
@@ -25,7 +19,10 @@ class DBBuilder {
         ...result
       ];
     }
+    return result;
+  }
 
+  static addMigrationsResult (result) {
     const migrations =
       'python manage.py makemigrations\npython manage.py migrate';
     result.push(
@@ -35,6 +32,41 @@ class DBBuilder {
         migrations
       )
     );
+    return result;
+  }
+
+  static addUserModelResult (json, result) {
+    let UserModel = null;
+    for (const model of json.models) {
+      if (model[Object.keys(model)[0]].isuser) {
+        UserModel = Object.keys(model)[0];
+      }
+    }
+    if (UserModel) {
+      result.push(
+        new Result(
+          'Configure your User Model',
+          'Add the following line to your settings.py file:',
+          `AUTH_USER_MODEL = "yourapp.${UserModel}"`
+        )
+      );
+    }
+    return result;
+  }
+
+  // return Result[]
+  static build (json) {
+    DBChecker.check(json);
+    let result = [];
+    for (const model of json.models) {
+      result.push(
+        ...ModelBuilder.build(Object.keys(model)[0], model[Object.keys(model)[0]])
+      );
+    }
+    result = this.addPackageResult(json, result);
+    result = this.addUserModelResult(json, result);
+    result = this.addMigrationsResult(result);
+
     return result;
   }
 }

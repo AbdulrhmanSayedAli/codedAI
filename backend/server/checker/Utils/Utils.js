@@ -1,29 +1,30 @@
-import CheckerError from './CheckerError';
-import { NotFound, InvalidType, NotInList } from './ErrorMessages';
+import CheckerError from './CheckerError.js';
+import ErrorMessages from './ErrorMessages.js';
 
-const isValidName = (className) => {
+export const isValidName = (className) => {
   const classNameRegex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
   return classNameRegex.test(className);
 };
 
-const isTypeOf = (obj, cls) => {
+export const isTypeOf = (obj, cls) => {
   if (cls === 'any') return true;
   if (cls === 'array') return Array.isArray(obj);
-  return Object.prototype.toString.call(obj) === cls;
+  // eslint-disable-next-line valid-typeof
+  return typeof obj === cls;
 };
 
-const InitialChecks = (name, nameForRequired, val, type, required) => {
+export const InitialChecks = (name, nameForRequired, val, type, required) => {
   if (val === null || val === undefined) {
     if (!required) return;
-    throw new CheckerError(NotFound(nameForRequired));
+    throw new CheckerError(ErrorMessages.NotFound(nameForRequired));
   }
 
   if (!isTypeOf(val, type)) {
-    throw new CheckerError(InvalidType(name, type));
+    throw new CheckerError(ErrorMessages.InvalidType(name, type));
   }
 };
 
-const MainValidator = (prefname, name, json, List) => {
+export const MainValidator = (prefname, name, json, List) => {
   for (const prop in List) {
     if (
       !List[prop].required &&
@@ -43,7 +44,7 @@ const MainValidator = (prefname, name, json, List) => {
     if (List[prop].choices) {
       if (!List[prop].choices.includes(json[prop])) {
         throw new CheckerError(
-          NotInList(
+          ErrorMessages.NotInList(
             `${prefname}${name ? `[${name}]` : ''}.${prop}=${json[prop]}`,
             List[prop].choices
           )
@@ -53,7 +54,7 @@ const MainValidator = (prefname, name, json, List) => {
   }
 };
 
-const findDuplicates = (arr) => {
+export const findDuplicates = (arr) => {
   const uniqueValues = new Set();
   const duplicates = [];
 
@@ -66,12 +67,4 @@ const findDuplicates = (arr) => {
   }
 
   return duplicates;
-};
-
-export default {
-  isValidName,
-  isTypeOf,
-  InitialChecks,
-  findDuplicates,
-  MainValidator
 };
