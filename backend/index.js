@@ -17,12 +17,14 @@ import usersRouter from './server/routes/users/router.js';
 import projectsRouter from './server/routes/projects/router.js';
 import workspacesRouter from './server/routes/workspaces/router.js';
 import cors from 'cors';
+import Association from './server/models/assocations/assocations.js';
 import bodyParser from 'body-parser';
 AdminJS.registerAdapter({
   Resource: AdminJSSequelize.Resource,
   Database: AdminJSSequelize.Database
 });
 
+Association.associate();
 const PORT = 3000;
 
 const start = async () => {

@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+import { Model } from 'sequelize';
 import sequelize from './index.js';
 
 class WorkSpaceCopy extends Model {
@@ -6,18 +6,7 @@ class WorkSpaceCopy extends Model {
 }
 WorkSpaceCopy.init(
   {
-    json: {
-      type: DataTypes.JSON
-    },
-    name: {
-      type: DataTypes.STRING
-    },
-    descriprion: {
-      type: DataTypes.STRING
-    },
-    date: {
-      type: DataTypes.DATE
-    }
+
   },
   {
     sequelize,

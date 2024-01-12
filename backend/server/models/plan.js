@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from './index.js';
 
 class Plan extends Model {
-  static associate (models) {}
+
 }
 Plan.init(
   {
