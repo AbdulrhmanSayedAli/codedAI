@@ -1,0 +1,123 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.simple-floatingedges {
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+  height: 100vh;
+  width: 100vw;
+}
+
+.simple-floatingedges .react-flow__handle {
+  background-color: #bbb;
+}
+
+.simple-floatingedges .react-flow__handle-left {
+  left: -5px;
+}
+
+.simple-floatingedges .react-flow__handle-right {
+  right: -5px;
+}
+
+.simple-floatingedges .react-flow__node-custom {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  height: 40px;
+  width: 150px;
+}
+
+.node-handle {
+  visibility: hidden;
+  cursor: default;
+  transition: 0.3s;
+  width: 10px;
+  height: 10px;
+}
+
+.node-handle.visible {
+  visibility: visible;
+}
+
+.node-handle:hover,
+.node-content:hover .node-handle {
+  visibility: visible;
+}
+
+.customHandle {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0;
+  transform: none;
+  border: none;
+  opacity: 0;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+.node-content {
+  background: #fff;
+  border: 1px solid #1a192b;
+  color: #222;
+  font-size: 12px;
+  width: 100%;
+}
+.node-content .node-label {
+  text-align: center;
+  display: block;
+  width: 100%;
+  cursor: text;
+  font-size: 14px;
+  min-height: 10px;
+}
+
+.node-content .add-button,
+.node-content .delete-button {
+  text-align: center;
+  position: absolute;
+  top: 8px;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.node-content .add-button {
+  right: -30px;
+  color: green;
+}
+
+.node-content .delete-button {
+  left: -30px;
+  color: red;
+}
+
+.add-button:hover,
+.node-content:hover .add-button {
+  visibility: visible;
+}
+
+.delete-button:hover,
+.node-content:hover .delete-button {
+  visibility: visible;
+}
+
+.node-content .node-body {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-name {
+  margin-bottom: 5px;
+  align-self: flex-end;
+}
