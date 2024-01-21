@@ -14,16 +14,18 @@ export default function CustomNode(params) {
     edges,
     saveState,
     generateNode,
+    editNode,
+    getNode,
   } = useCustomReactFlowContext();
 
   const addNode = useCallback(() => {
     const groupNodes = getGroupNodes(data.group);
     const newNodes = [];
-
+    const newNodeId = randomString(6);
     for (const node of groupNodes) {
       if (node.data.groupIndex <= data.groupIndex) newNodes.push(node);
     }
-    newNodes.push(generateNode(randomString(6), xPos, yPos, data));
+    newNodes.push(generateNode(newNodeId, xPos, yPos, data));
     for (const node of groupNodes) {
       if (node.data.groupIndex > data.groupIndex) {
         const curNode = structuredClone(node);
@@ -48,6 +50,9 @@ export default function CustomNode(params) {
     }
     setNodesState(newNodes);
     saveState(newNodes, edges);
+    setTimeout(() => {
+      editNode(getNode(newNodeId));
+    }, 60);
   }, [
     getGroupNodes,
     data,
@@ -57,6 +62,8 @@ export default function CustomNode(params) {
     setNodesState,
     saveState,
     edges,
+    editNode,
+    getNode,
     nodes,
   ]);
 
