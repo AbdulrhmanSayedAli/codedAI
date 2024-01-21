@@ -44,6 +44,7 @@ User.init(
   {
     sequelize,
     modelName: 'User'
+
   }
 );
 

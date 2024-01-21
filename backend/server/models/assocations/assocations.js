@@ -11,25 +11,29 @@ import CheckPoints from '../checkPoints.js';
 class Assocation {
   static associate () {
     WorkSpace.belongsTo(User);
-    User.hasMany(WorkSpace);
+    User.hasMany(WorkSpace, { onDelete: 'CASCADE' });
 
-    User.hasMany(InviteToCompany);
+    User.hasMany(InviteToCompany, { onDelete: 'CASCADE' });
     InviteToCompany.belongsTo(User);
 
     InviteToWorkSpace.belongsTo(WorkSpace);
-    WorkSpace.hasMany(InviteToWorkSpace);
+    WorkSpace.hasMany(InviteToWorkSpace, { onDelete: 'CASCADE' });
 
     User.belongsToMany(WorkSpace, { through: WorkSpaceCopy });
     WorkSpace.belongsToMany(User, { through: WorkSpaceCopy });
 
-    WorkSpace.hasMany(Project);
+    WorkSpace.hasMany(Project, { onDelete: 'CASCADE' });
     Project.belongsTo(WorkSpace);
 
-    Project.hasMany(Result);
+    Project.hasMany(Result, { onDelete: 'CASCADE' });
+    Project.hasMany(CheckPoints, { onDelete: 'CASCADE' });
     Result.belongsTo(Project);
     CheckPoints.belongsTo(Project);
 
-    Plan.hasMany(User, { foreignKey: 'planId' });
+    CheckPoints.hasMany(Result, { onDelete: 'CASCADE' });
+    Result.belongsTo(CheckPoints);
+
+    Plan.hasMany(User, { foreignKey: 'planId', onDelete: 'CASCADE' });
     User.belongsTo(Plan, { foreignKey: 'planId' });
   }
 }

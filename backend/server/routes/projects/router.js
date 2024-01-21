@@ -1,7 +1,9 @@
 import { Router } from 'express';
-import build from './build.js';
+import project from './project.js';
+import checkPoint from './checkPoint/checkPoint.js';
 const router = Router();
 
-router.use('/', build);
+router.use('/', project);
+router.use('/checkPoints', checkPoint);
 
 export default router;

@@ -9,6 +9,12 @@ CheckPoints.init(
     json: {
       type: DataTypes.JSON
     },
+    nodes: {
+      type: DataTypes.JSON
+    },
+    edges: {
+      type: DataTypes.JSON
+    },
     name: {
       type: DataTypes.STRING
     },
@@ -17,6 +23,9 @@ CheckPoints.init(
     },
     date: {
       type: DataTypes.DATE
+    },
+    isColse: {
+      type: DataTypes.BOOLEAN
     }
   },
   {

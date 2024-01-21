@@ -19,6 +19,7 @@ import workspacesRouter from './server/routes/workspaces/router.js';
 import cors from 'cors';
 import Association from './server/models/assocations/assocations.js';
 import bodyParser from 'body-parser';
+import router from './server/routes/router.js';
 AdminJS.registerAdapter({
   Resource: AdminJSSequelize.Resource,
   Database: AdminJSSequelize.Database
@@ -29,7 +30,11 @@ const PORT = 3000;
 
 const start = async () => {
   const app = express();
+
   app.use(bodyParser.json());
+  app.use(express.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use('/', router);
   const corsOpts = {
     origin: true,
     credentials: true,
