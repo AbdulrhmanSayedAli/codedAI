@@ -13,6 +13,7 @@ import useHistory from "../history/useHistory";
 import useSelected from "./useSelected";
 import useCopied from "./useCopied";
 import { NODE_HEIGHT, NODE_WIDTH } from "../../Utils/Constants";
+import useEditting from "./useEditting";
 
 const useCustomReactFlow = (): CustomReactFlowInstance => {
   const { selectedNodes, selectedEdges } = useSelected();
@@ -27,6 +28,13 @@ const useCustomReactFlow = (): CustomReactFlowInstance => {
     reactFlowInstance.getNode,
     reactFlowInstance.getEdge
   );
+  const {
+    currentEdittingNode,
+    currentEdittingEdge,
+    editNode,
+    editEdge,
+    cancelEditting,
+  } = useEditting();
 
   const getGroupNodes = useCallback(
     (id: string) => {
@@ -116,6 +124,11 @@ const useCustomReactFlow = (): CustomReactFlowInstance => {
     undo,
     redo,
     generateNode,
+    editNode,
+    editEdge,
+    cancelEditting,
+    currentEdittingNode,
+    currentEdittingEdge,
     selectedNodes,
     selectedEdges,
     copiedNodes,

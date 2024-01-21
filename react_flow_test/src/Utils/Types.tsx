@@ -88,6 +88,8 @@ export type CustomReactFlowInstance = ReactFlowInstance & {
   selectedEdges: string[];
   copiedNodes: Node<NodeData>[];
   copiedEdges: Edge<EdgeData>[];
+  currentEdittingNode: Node<NodeData>;
+  currentEdittingEdge: Edge<EdgeData>;
   nodes: Node<NodeData>[];
   edges: Edge<EdgeData>[];
   getGroupNodes: (id: string) => Node<NodeData>[];
@@ -106,4 +108,7 @@ export type CustomReactFlowInstance = ReactFlowInstance & {
     parentY: number,
     parentData: NodeData
   ) => Node<NodeData>;
+  editNode: (node: Node<NodeData>) => void;
+  editEdge: (edge: Edge<EdgeData>) => void;
+  cancelEditting: () => void;
 };

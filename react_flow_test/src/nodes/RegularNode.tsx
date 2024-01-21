@@ -8,7 +8,7 @@ const connectionNodeIdSelector = (state) => state.connectionNodeId;
 
 export default function RegularNode({ data, id, addNode, deleteNode }) {
   const [isEditing, setEditing] = useState(false);
-  const { getNode, nodes, edges, setNodesState, saveState } =
+  const { getNode, nodes, edges, setNodesState, saveState, editNode } =
     useCustomReactFlowContext();
 
   const handleClassName = `node-handle ${data.topInGroup ? "visible" : ""}`;
@@ -34,6 +34,11 @@ export default function RegularNode({ data, id, addNode, deleteNode }) {
 
   return (
     <div
+      onClick={() => {
+        setTimeout(() => {
+          editNode(getNode(id));
+        }, 30);
+      }}
       className="node-content"
       style={{
         backgroundColor: isTarget ? "#ffcce3" : "#ffffff",

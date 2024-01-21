@@ -3,6 +3,7 @@ import { useStore, getSmoothStepPath, Position } from "reactflow";
 
 import { getEdgeParams } from "./Utils/Utils.js";
 import { EdgeData } from "./Utils/Types.js";
+import { useCustomReactFlowContext } from "./hooks/ReactFlow/customReactFlowContext.js";
 
 function SimpleFloatingEdge({
   id,
@@ -24,6 +25,7 @@ function SimpleFloatingEdge({
   const targetNode = useStore(
     useCallback((store) => store.nodeInternals.get(target), [target])
   );
+  const { editEdge, getEdge } = useCustomReactFlowContext();
 
   if (!sourceNode || !targetNode) {
     return null;
@@ -46,6 +48,11 @@ function SimpleFloatingEdge({
   return (
     <>
       <path
+        onClick={() => {
+          setTimeout(() => {
+            editEdge(getEdge(id));
+          }, 30);
+        }}
         id={id}
         className="react-flow__edge-path"
         d={edgePath}

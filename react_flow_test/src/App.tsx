@@ -9,6 +9,7 @@ import ReactFlow, {
   Controls,
   Node,
 } from "reactflow";
+
 import "reactflow/dist/style.css";
 
 import SimpleFloatingEdge from "./SimpleFloatingEdge";
@@ -16,6 +17,7 @@ import CustomNode from "./nodes/CustomNode";
 import { useCustomReactFlowContext } from "./hooks/ReactFlow/customReactFlowContext";
 import { NodeData } from "./Utils/Types";
 import Svgs from "./assets/Svgs";
+import EditPanel from "./Components/EditPanel/EditPanel";
 
 const nodeTypes = {
   custom: CustomNode,
@@ -46,6 +48,7 @@ const NodeAsHandleFlow = () => {
     saveState,
     undo,
     redo,
+    cancelEditting,
   } = useCustomReactFlowContext();
 
   const [MouseXY, setMouseXY] = useState({ x: null, y: null });
@@ -198,6 +201,9 @@ const NodeAsHandleFlow = () => {
         connectionLineType={ConnectionLineType.SmoothStep}
         panOnDrag={[1, 2]}
         selectionOnDrag
+        onClick={() => {
+          cancelEditting();
+        }}
         onSelectionDragStart={(event) => {
           setMouseXY({ x: event.screenX, y: event.screenY });
         }}
@@ -217,9 +223,16 @@ const NodeAsHandleFlow = () => {
         }}
       >
         <Background />
-        <MiniMap nodeStrokeWidth={3} zoomable pannable zoomStep={2} />
+        <MiniMap
+          nodeStrokeWidth={3}
+          zoomable
+          pannable
+          zoomStep={2}
+          position="top-left"
+        />
         <Controls />
       </ReactFlow>
+      <EditPanel />
     </div>
   );
 };
